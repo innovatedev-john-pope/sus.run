@@ -1,6 +1,5 @@
 import {
   createGitHubOAuth2Client,
-  getSessionId,
   handleCallback,
   signIn,
   signOut,
