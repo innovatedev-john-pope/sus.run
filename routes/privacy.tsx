@@ -14,8 +14,20 @@ export default function Privacy() {
       We do track some basic analytics, such as the number of times a short code is used, and feedback from users on wether a link or another user is suspicious. We do not track any personally identifiable information, unless you login. When you login, we track your github username, id, an avatar url and an access token that allows reading basic information you agree to when you first authorize this application with github. We do not store any other information available from github's API.
     </p>
 
+     <p>
+      There is an admin panel that allows site admins to view and delete all URLs and short codes, sessions and user info, including information from github. Also, the deno deploy admin page allows viewing all data for logged in users. Sufice it to say, you should not put secure links into this system as they are viewable in plain text by anyone with access to either of these resources.
+    </p>
+
     <p>
-      Source code will be made available with the submission of this project for the hackathon.
+      Users can delete their own URLs and short codes, but cannot edit them.
+    </p>
+
+    <p>
+      Source is available at <a href="https://github.com/innovatedev-john-pope/sus.run">https://github.com/innovatedev-john-pope/sus.run</a>.
     </p>
   </>
+}
+
+export const config = {
+  authType: "public",
 }
