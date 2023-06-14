@@ -35,7 +35,7 @@ export const handler: Handlers<Data, AuthState> = {
       .check(fromDb)
       .delete([KEY_PREFIX.userUrls, username, data.shortCode])
       .delete([KEY_PREFIX.urls, data.shortCode])
-      .delete([KEY_PREFIX.urlDestinations, fromDb.value])
+      .delete([KEY_PREFIX.urlDestinations, fromDb.value, data.shortCode])
       .commit();
 
     return new Response(null, {status: 204});

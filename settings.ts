@@ -1,6 +1,6 @@
 export default {
   database: {
-    path: Deno.env.get("DATABASE_PATH")||undefined,
+    path: Deno.env.get("DATABASE_PATH")||null,
   },
   github: {
     clientId: Deno.env.get("GITHUB_CLIENT_ID")!,
