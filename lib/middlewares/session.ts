@@ -18,7 +18,7 @@ export async function SessionMiddleware(
   if(ctx.state.sid) {
     ctx.state.session = await getSessionData(ctx.state.sid)
     
-    const user = ctx.state.session?.user.username!;
+    const user = ctx.state.session?.user?.username!;
     ctx.state.username = user
     
     ctx.state.isAdmin = settings.admin.users.indexOf(user) !== -1
