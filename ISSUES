@@ -1,10 +1,16 @@
+## Deno KV
+
 how to reset database
 
 * local - set path, delete file
 * deno deploy -- ??
 
 how to find all keys?
-does prefix require all but the last part of the key?
+can you combine list operations when doing multiple lookups?
+pagination?
+sorting? - only by index...
+
+## Fresh
 
 render other error pages (403, 401, 500, etc.)
 

@@ -1,10 +1,10 @@
 import { Handlers } from "$fresh/server.ts";
 import { Button } from "../components/Button.tsx";
 import { Text } from "../components/Text.tsx";
-import { AuthState } from "../lib/auth.ts";
+import { SessionState } from "../lib/auth.ts";
 import { handler as ApiHandler } from "./api/shorten.ts";
 
-export const handler: Handlers<unknown, AuthState> = {
+export const handler: Handlers<unknown, SessionState> = {
   GET: (_req, ctx) => ctx.render(),
   POST: ApiHandler.POST,
 }

@@ -11,7 +11,8 @@ import * as $5 from "./routes/admin/clean-db.tsx";
 import * as $6 from "./routes/api/shorten.ts";
 import * as $7 from "./routes/index.tsx";
 import * as $8 from "./routes/oauth.tsx";
-import * as $9 from "./routes/profile/index.tsx";
+import * as $9 from "./routes/privacy.tsx";
+import * as $10 from "./routes/profile/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/DeleteShortCode.tsx";
 
@@ -26,7 +27,8 @@ const manifest = {
     "./routes/api/shorten.ts": $6,
     "./routes/index.tsx": $7,
     "./routes/oauth.tsx": $8,
-    "./routes/profile/index.tsx": $9,
+    "./routes/privacy.tsx": $9,
+    "./routes/profile/index.tsx": $10,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

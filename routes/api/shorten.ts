@@ -1,8 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
-import { AuthState } from "../../lib/auth.ts";
+import { SessionState } from "../../lib/auth.ts";
 import { KEY_PREFIX, kv } from "../../lib/data.ts";
 
-export const handler: Handlers<unknown, AuthState> = {
+export const handler: Handlers<unknown, SessionState> = {
   POST: async (req, ctx) => {
     const url = new URL(req.url);
     const data = await req.formData();

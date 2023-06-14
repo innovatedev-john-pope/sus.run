@@ -2,12 +2,12 @@ import { MiddlewareHandlerContext } from "$fresh/server.ts";
 import {
   getSessionId
 } from "deno_kv_oauth";
-import { AuthState, getSessionData } from "../auth.ts";
+import { SessionState, getSessionData } from "../auth.ts";
 import settings from "../../settings.ts";
 
 export async function SessionMiddleware(
   req: Request,
-  ctx: MiddlewareHandlerContext<AuthState>,
+  ctx: MiddlewareHandlerContext<SessionState>,
 ) {
   if(ctx.destination !== 'route') {
     return ctx.next();

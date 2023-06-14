@@ -1,6 +1,6 @@
 import { KEY_PREFIX, kv } from "./data.ts"
 
-export interface AuthState {
+export interface SessionState {
   sid: string|null
   accessToken: string|null
   session: OauthSession|null

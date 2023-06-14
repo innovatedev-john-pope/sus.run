@@ -11,6 +11,7 @@
     "twind": "https://esm.sh/twind@0.16.19",
     "twind/": "https://esm.sh/twind@0.16.19/",
     "$std/": "https://deno.land/std@0.187.0/",
-    "deno_kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.2.0-beta/mod.ts"
+    "deno_kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.2.0-beta/mod.ts",
+    "deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.2.0-beta/src/"
   }
 }

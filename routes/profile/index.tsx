@@ -1,13 +1,13 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import DeleteShortCode from "../../islands/DeleteShortCode.tsx";
-import { AuthState } from "../../lib/auth.ts";
+import { SessionState } from "../../lib/auth.ts";
 import { KEY_PREFIX, kv } from "../../lib/data.ts";
 
 interface Data {
   urls: { shortCode: string, destination: string, url: string }[];
 }
 
-export const handler: Handlers<Data, AuthState> = {
+export const handler: Handlers<Data, SessionState> = {
   GET: async (req, ctx) => {
     const url = new URL(req.url);
     const user = ctx.state.session?.user.username;
@@ -42,7 +42,7 @@ export const handler: Handlers<Data, AuthState> = {
   }
 }
 
-export default function (props: PageProps<Data, AuthState>) {
+export default function (props: PageProps<Data, SessionState>) {
   return <>
     {props.data.urls.length === 0 && <div class="text-center text-gray-600 bg-yellow-100 rounded border(yellow-300 2) p-4 mt-[30%]">No URLs</div>}
 
