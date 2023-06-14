@@ -4,7 +4,7 @@ import { ComponentType } from "preact";
 import { AuthState } from "../lib/auth.ts";
 import { Head } from "$fresh/runtime.ts";
 
-export default function App({ Component, state }: PageProps<unknown, AuthState> & {
+export default function App({ url, Component, state }: PageProps<unknown, AuthState> & {
   Component: ComponentType<Record<never, never>>;
 }) {
   return <>
@@ -12,13 +12,20 @@ export default function App({ Component, state }: PageProps<unknown, AuthState> 
       <title>sus.run - Safe URL shortener</title>
     </Head>
     <div class="flex flex-col min-h-screen">
-      <header class="flex gap-4 justify-between p-4 max-w-screen-xl m-auto w-full">
-        <a href="/">sus.run</a>
+      <header class="flex gap-4 justify-between p-4 max-w-screen-xl m-auto w-full items-center">
+        <div class="text-4xl">
+          {url.pathname !== '/' ?
+            <a href="/">sus.run</a>
+          :
+            <span>&nbsp;</span>
+          }
+        </div>
 
         {state && <nav class="flex gap-4">
           {state.session ? 
             <>
-              {state.session.user.username}
+              {state.isAdmin && <a href="/admin/clean-db">DB</a>}
+              <a href="/profile">{state.session.user.username}</a>
               <a href="/signout">Sign Out</a>
             </>
           :

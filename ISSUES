@@ -1,0 +1,11 @@
+how to reset database
+
+* local - set path, delete file
+* deno deploy -- ??
+
+how to find all keys?
+does prefix require all but the last part of the key?
+
+render other error pages (403, 401, 500, etc.)
+
+render 404 from middleware

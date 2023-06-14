@@ -1,4 +1,11 @@
-export const kv = await Deno.openKv();
-export const URLS_PREFIX = "urls";
-export const USER_URLS_PREFIX = "user-urls";
-export const URL_DESTINATIONS_PREFIX = "url-destinations";
+import settings from "../settings.ts";
+
+export const kv = await Deno.openKv(settings.database.path);
+
+export const KEY_PREFIX = {
+  urls: "urls",
+  userUrls: "user-urls",
+  urlDestinations: "url-destinations",
+  session: "session",
+  users: "users",
+}

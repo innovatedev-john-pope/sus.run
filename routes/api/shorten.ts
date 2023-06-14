@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { AuthState } from "../../lib/auth.ts";
-import { URLS_PREFIX, URL_DESTINATIONS_PREFIX, USER_URLS_PREFIX, kv } from "../../lib/data.ts";
+import { KEY_PREFIX, kv } from "../../lib/data.ts";
 
 export const handler: Handlers<unknown, AuthState> = {
   POST: async (req, ctx) => {
@@ -17,7 +17,7 @@ export const handler: Handlers<unknown, AuthState> = {
     let attempts = 0;
     do {
       shortCode = Math.random().toString(36).substring(2, 7);
-      const fromDb = await kv.get([URLS_PREFIX, shortCode])
+      const fromDb = await kv.get([KEY_PREFIX.urls, shortCode])
       inUse = fromDb.value ? true : false;
     } while (inUse && attempts++ < 20);
 
@@ -25,11 +25,11 @@ export const handler: Handlers<unknown, AuthState> = {
       return new Response("Failed to generate a short code", { status: 500 });
     }
 
-    const user = ctx.state.session?.user.username || "<ANON>";
+    const user = ctx.state.username || "<ANON>";
     
-    const urlsKey = [URLS_PREFIX, shortCode];
-    const userUrlsKey = [USER_URLS_PREFIX, user, shortCode];
-    const urlDestinationsKey = [URL_DESTINATIONS_PREFIX, destination, shortCode];
+    const urlsKey = [KEY_PREFIX.urls, shortCode];
+    const userUrlsKey = [KEY_PREFIX.userUrls, user, shortCode];
+    const urlDestinationsKey = [KEY_PREFIX.urlDestinations, destination, shortCode];
 
     const success = await kv.atomic()
       .check({ key: urlsKey, versionstamp: null })
@@ -46,10 +46,10 @@ export const handler: Handlers<unknown, AuthState> = {
 
     return new Response(url.origin + "/" + shortCode, { status: 200 })
   },
-  GET: async (req, ctx) => {
+  GET: async (req, _ctx) => {
     const url = new URL(req.url);
     const shortCode = url.pathname.substring(1);
-    const fromDb = await kv.get([URLS_PREFIX, shortCode]);
+    const fromDb = await kv.get([KEY_PREFIX.urls, shortCode]);
 
     if(!fromDb.value) {
       return new Response("Not found", { status: 404 });

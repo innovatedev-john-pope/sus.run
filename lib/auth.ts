@@ -1,9 +1,11 @@
-import { kv } from "./data.ts"
+import { KEY_PREFIX, kv } from "./data.ts"
 
 export interface AuthState {
   sid: string|null
   accessToken: string|null
   session: OauthSession|null
+  isAdmin: boolean
+  username: string
 }
 
 export interface OauthSession {
@@ -17,16 +19,12 @@ export interface User {
 }
 
 
-const SESSION_PREFIX = "session";
-
 export async function login(sessionId: string, user: User) {
-  await kv.set([SESSION_PREFIX, sessionId], JSON.stringify({user}));
-  await kv.set(["users", user.id], JSON.stringify(user));
+  await kv.set([KEY_PREFIX.session, sessionId], {user});
+  await kv.set(["users", user.id], user);
 }
 
 export async function getSessionData(sessionId: string): Promise<OauthSession|null> {
-  const response = await kv.get([SESSION_PREFIX, sessionId]);
-  const session = response.value ? JSON.parse(response.value) as OauthSession : null;
-
-  return session;
+  const response = await kv.get([KEY_PREFIX.session, sessionId]);
+  return response.value;
 }

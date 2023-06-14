@@ -1,5 +1,6 @@
 {
   "imports": {
+    "~/": "./",
     "$fresh/original": "https://deno.land/x/fresh@1.1.6/",
     "$fresh/": "https://raw.githubusercontent.com/deer/fresh/state_in_props/",
     "preact": "https://esm.sh/preact@10.13.1",
