@@ -1,10 +1,11 @@
 import { Handler, Handlers, MiddlewareHandlerContext } from "$fresh/server.ts";
 import { SessionState } from "../auth.ts";
 import router from "~/fresh.gen.ts";
-import { JSX } from "preact";
+import { FunctionComponent } from "preact";
 
+export interface Route { default?: FunctionComponent, handler?: Handler|Handlers, config?: { routeOverride?: string, auth?: 'public'|'guest' } }
 export interface RouteState extends SessionState {
-  route: { default?: JSX.Element, handler?: Handler|Handlers, config?: { routeOverride?: string, auth?: 'public'|'guest' } };
+  route: Route|null
   url: URL
 }
 
@@ -17,6 +18,7 @@ export async function RouteMiddleware(
   }
 
   ctx.state.url = new URL(req.url);
+  ctx.state.route = getRoute(ctx.state.url.pathname);
 
   return await ctx.next();
 }
@@ -24,7 +26,7 @@ export async function RouteMiddleware(
 export function getRoute(path: string) {
   const routes = router.routes;
 
-  if (path === "/") return routes["./routes/index.tsx"];
+  if (path === "/") return routes["./routes/index.tsx"] as unknown as Route;
 
   const route = Object.entries(routes).find(([r, m]) => {
     return r.replace("./routes", "").startsWith(path);
@@ -34,7 +36,7 @@ export function getRoute(path: string) {
   if (!match) {
     //match to /[params]/that/[could]/be/anything
     const route = Object.entries(routes).find(([r, m]) => {
-      const routeParts = r.replace("./routes", "").replace(".tsx", "").split(
+      const routeParts = r.replace("./routes", "").replace(/.tsx?$/, "").split(
         "/",
       );
       const pathParts = path.split("/");
@@ -55,5 +57,5 @@ export function getRoute(path: string) {
   //   console.log('no match for', path, 'in', routes);
   // }
 
-  return match;
+  return (match as Route)||null;
 }

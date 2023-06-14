@@ -4,15 +4,16 @@
 
 import * as $0 from "./routes/[code].tsx";
 import * as $1 from "./routes/_404.tsx";
-import * as $2 from "./routes/_app.tsx";
-import * as $3 from "./routes/_middleware.ts";
-import * as $4 from "./routes/admin/_middleware.ts";
-import * as $5 from "./routes/admin/clean-db.tsx";
-import * as $6 from "./routes/api/shorten.ts";
-import * as $7 from "./routes/index.tsx";
-import * as $8 from "./routes/oauth.tsx";
-import * as $9 from "./routes/privacy.tsx";
-import * as $10 from "./routes/profile/index.tsx";
+import * as $2 from "./routes/_500.tsx";
+import * as $3 from "./routes/_app.tsx";
+import * as $4 from "./routes/_middleware.ts";
+import * as $5 from "./routes/admin/_middleware.ts";
+import * as $6 from "./routes/admin/clean-db.tsx";
+import * as $7 from "./routes/api/shorten.ts";
+import * as $8 from "./routes/index.tsx";
+import * as $9 from "./routes/oauth.tsx";
+import * as $10 from "./routes/privacy.tsx";
+import * as $11 from "./routes/profile/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/DeleteShortCode.tsx";
 
@@ -20,15 +21,16 @@ const manifest = {
   routes: {
     "./routes/[code].tsx": $0,
     "./routes/_404.tsx": $1,
-    "./routes/_app.tsx": $2,
-    "./routes/_middleware.ts": $3,
-    "./routes/admin/_middleware.ts": $4,
-    "./routes/admin/clean-db.tsx": $5,
-    "./routes/api/shorten.ts": $6,
-    "./routes/index.tsx": $7,
-    "./routes/oauth.tsx": $8,
-    "./routes/privacy.tsx": $9,
-    "./routes/profile/index.tsx": $10,
+    "./routes/_500.tsx": $2,
+    "./routes/_app.tsx": $3,
+    "./routes/_middleware.ts": $4,
+    "./routes/admin/_middleware.ts": $5,
+    "./routes/admin/clean-db.tsx": $6,
+    "./routes/api/shorten.ts": $7,
+    "./routes/index.tsx": $8,
+    "./routes/oauth.tsx": $9,
+    "./routes/privacy.tsx": $10,
+    "./routes/profile/index.tsx": $11,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

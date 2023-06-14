@@ -9,6 +9,7 @@ export async function AuthMiddleware(
   if(ctx.destination !== 'route') {
     return ctx.next();
   }
+
   const path = ctx.state.url.pathname;
 
   const isLoggedIn = ctx.state.username !== undefined;
@@ -26,7 +27,7 @@ export async function AuthMiddleware(
   }
 
   if(!isLoggedIn && authType === 'private') {
-    return redirect('/signin');
+    throw new Error('Not authorized', { cause: 'auth' });
   }
 
   if(isLoggedIn && authType === 'guest') {

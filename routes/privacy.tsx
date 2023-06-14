@@ -11,7 +11,7 @@ export default function Privacy() {
     </p>
 
     <p>
-      We do track some basic analytics, such as the number of times a short code is used, and feedback from users on wether a link or another user is suspicious. We do not track any personally identifiable information, unless you login. When you login, we track your github username, id, an avatar url and an access token that allows reading basic information you agree to when you first authorize this application with github. We do not store any other information available from github's API.
+      We do track some basic analytics, such as the number of times a short code is used, and feedback from users on whether a link or another user is suspicious. We do not track any personally identifiable information, unless you login. When you login, we track your github username, id, an avatar url and an access token that allows reading basic information you agree to when you first authorize this application with github. We do not store any other information available from github's API.
     </p>
 
      <p>
@@ -29,5 +29,5 @@ export default function Privacy() {
 }
 
 export const config = {
-  authType: "public",
+  auth: "public",
 }

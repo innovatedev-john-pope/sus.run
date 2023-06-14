@@ -6,6 +6,12 @@ export default {
   variants: {
     'input-has-value': "&:not(:has(:placeholder-shown)) > div:first-child",
   },
+  theme: {
+    fontFamily: {
+      cursive: ['Changa One', 'cursive'],
+      sus: ['VT323', 'monospace'],
+    },
+  },
   preflight: {
     ':global': {
       'main': {
@@ -15,6 +21,8 @@ export default {
       'h1': apply('text-4xl'),
       'h2': apply('text-3xl'),
       'h3, h4, h5, h6': apply('text-2xl'),
+      '.site-title': apply('font-cursive'),
+
     }
   }
 } as Options;

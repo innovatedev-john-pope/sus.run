@@ -11,6 +11,10 @@ export default function App({ url, Component, state }: PageProps<unknown, Sessio
   return <>
     <Head>
       <title>sus.run - Safe URL shortener</title>
+
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'true'}/>
+      <link href="https://fonts.googleapis.com/css2?family=Changa+One&family=VT323&display=swap" rel="stylesheet"/>
     </Head>
     
     <SkipToContent />
@@ -19,7 +23,7 @@ export default function App({ url, Component, state }: PageProps<unknown, Sessio
       <header class="flex gap-4 justify-between p-4 max-w-screen-xl m-auto w-full items-center">
         <div class="text-4xl">
           {url.pathname !== '/' ?
-            <a href="/">sus.run</a>
+            <a href="/" class="site-title">sus.run</a>
           :
             <span>&nbsp;</span>
           }
