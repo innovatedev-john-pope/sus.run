@@ -15,7 +15,7 @@ export default function App({ Component, state }: PageProps<unknown, AuthState> 
       <header class="flex gap-4 justify-between p-4 max-w-screen-xl m-auto w-full">
         <a href="/">sus.run</a>
 
-        <nav class="flex gap-4">
+        {state && <nav class="flex gap-4">
           {state.session ? 
             <>
               {state.session.user.username}
@@ -24,7 +24,7 @@ export default function App({ Component, state }: PageProps<unknown, AuthState> 
           :
             <a href="/signin">Sign In</a>
           }
-        </nav>
+        </nav>}
       </header>
       <div class="max-w-screen-xl px-12 m-auto flex-grow w-full">
         <Component />
