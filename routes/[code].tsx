@@ -7,12 +7,14 @@ import { Actions, KEY_PREFIX, SusRecord, User, UserOrAnon, getActions, kv, udpat
 import { Button } from "../components/Button.tsx";
 import { Alert } from "../components/Alert.tsx";
 import ShortCodeUser from "../islands/ShortCodeUser.tsx";
+import ShortCode from "../islands/ShortCode.tsx";
 
 interface Data {
   shortCode: string
   record: SusRecord
   user: UserOrAnon
   actions: Actions
+  link: string
 }
 
 export const handler: Handlers<Data, SessionState> = {
@@ -70,17 +72,19 @@ export const handler: Handlers<Data, SessionState> = {
     }
 
     const actions = await getActions(userId)
+    const link = `${new URL(req.url).origin}/${shortCode}`
 
     return ctx.render({
       actions: actions.value!,
       shortCode: shortCode,
       record: shortCodeRecord.value as SusRecord,
+      link,
       user: userRecord.value as UserOrAnon,
     })
   }
 }
 
-export default function Greet({data: {shortCode, actions, record, user}, ...props}: PageProps<Data>) {
+export default function Greet({data: {shortCode, link, actions, record, user}, ...props}: PageProps<Data>) {
   const url = new URL(record.destination);
   const { pathname, origin, username, password, searchParams } = url;
 
@@ -88,6 +92,7 @@ export default function Greet({data: {shortCode, actions, record, user}, ...prop
 
   return <div class="flex flex-col gap-16 p-4 mx-auto pt-16">
   <div class="text-center">
+    <ShortCode link={link} />
     <h1 class="text-6xl mb-0 mx-auto text-center site-title">
       {origin}
     </h1>
