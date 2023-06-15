@@ -13,6 +13,7 @@ Uses [Deno](https://deno.land) and [Fresh](https://fresh.deno.dev).
 - [x] Create short links
 - [x] Redirect to original link
 - [x] Intercept redirect so user can see where they're going/report any suspicious links
+- [x] Show link details, highlight unicode characters
 - [x] User auth (github)
 - [x] Delete short links
 - [x] Basic stats (views, clicks)
@@ -46,11 +47,10 @@ cp .env.example .env
 ```
 
 Setup github oauth app and add client id and secret to .env file. Callback should be `http://localhost:8000/oauth/callback/github` for local development.
-```
 
 Start the project:
 
-```
+```bash
 deno task start
 ```
 
