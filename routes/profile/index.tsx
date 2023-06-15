@@ -46,12 +46,14 @@ export default function (props: PageProps<Data, SessionState>) {
   return <>
     {props.data.urls.length === 0 && <div class="text-center text-gray-600 bg-yellow-100 rounded border(yellow-300 2) p-4 mt-[30%]">No URLs</div>}
 
-    {props.data.urls.map(url => <div class="flex justify-between max-w-lg m-auto">
-      <a href={url.url} class="text-gray-600">{url.shortCode}</a>
-      <a href={url.destination}>
-        {url.destination}
-      </a>
-      <DeleteShortCode code={url.shortCode} />
-    </div>)}
+    <div class="grid grid-cols-7 my-8 gap-8 mx-auto">
+      {props.data.urls.map(url => <>
+        <a href={url.url} class="text-gray-600">{url.shortCode}</a>
+        <a href={url.destination} class="col-span-5">
+          {url.destination}
+        </a>
+        <DeleteShortCode code={url.shortCode} />
+      </>)}
+    </div>
   </>
 }

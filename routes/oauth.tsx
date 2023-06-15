@@ -19,9 +19,9 @@ export const handler: Handlers = {
       }
       case "/oauth/callback/github": {
         const { response, accessToken, sessionId } = await handleCallback(request, oauth2Client);
-        const {login: username, id, avatar_url} = await githubUser(accessToken);
+        const ghUser = await githubUser(accessToken);
 
-        login(sessionId, {username, id, avatar_url});
+        login(sessionId, ghUser);
 
         return response;
       }

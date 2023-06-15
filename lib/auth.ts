@@ -1,4 +1,4 @@
-import { KEY_PREFIX, kv } from "./data.ts"
+import { KEY_PREFIX, User, kv } from "./data.ts"
 
 export interface SessionState {
   sid: string|null
@@ -12,16 +12,26 @@ export interface OauthSession {
     user: User
 }
 
-export interface User {
-  username: string
-  id: string
-  avatar_url: string
-}
-
-
 export async function login(sessionId: string, user: User) {
-  await kv.set([KEY_PREFIX.session, sessionId], {user});
-  await kv.set(["users", user.id], user);
+  const userKey = [KEY_PREFIX.users, user.username];
+  const fromDB = await kv.get(userKey);
+  if(fromDB.value) {
+    user = {...fromDB.value, ...user};
+  } else {
+    user.sus = 0;
+    user.subs = 0;
+  }
+
+  let checkRecord = fromDB;
+  if(!fromDB.value) {
+    checkRecord = { key: userKey, versionstamp: null }
+  }
+
+  await kv.atomic()
+    .check(checkRecord)
+    .set([KEY_PREFIX.session, sessionId], {user})
+    .set(userKey, user)
+    .commit();
 }
 
 export async function getSessionData(sessionId: string): Promise<OauthSession|null> {
