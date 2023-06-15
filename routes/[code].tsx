@@ -3,17 +3,17 @@ import { PageProps } from "$fresh/server.ts";
 import { Handlers } from "$fresh/server.ts";
 import { redirect } from "https://deno.land/x/deno_kv_oauth@v0.2.0-beta/src/_core.ts";
 import { SessionState } from "~/lib/auth.ts";
-import { KEY_PREFIX, SusRecord, User, kv, updateShortCodeRecord } from "~/lib/data.ts";
+import { Actions, KEY_PREFIX, SusRecord, User, UserOrAnon, getActions, kv, udpateShortCodeUserRecord, updateShortCodeRecord } from "~/lib/data.ts";
 import { Button } from "../components/Button.tsx";
 import { Alert } from "../components/Alert.tsx";
+import ShortCodeUser from "../islands/ShortCodeUser.tsx";
 
 interface Data {
   shortCode: string
   record: SusRecord
   user: UserOrAnon
+  actions: Actions
 }
-
-type UserOrAnon = User|{username: '<ANON>'};
 
 export const handler: Handlers<Data, SessionState> = {
   POST: async (req, ctx) => {
@@ -25,14 +25,24 @@ export const handler: Handlers<Data, SessionState> = {
       return ctx.renderNotFound();
     }
 
+    const userId = ctx.state.session.user.id;
+
     switch(action) {
       case "click": {
-        const shortCodeRecord = await updateShortCodeRecord(shortCode, 'clicks');
+        const shortCodeRecord = await updateShortCodeRecord(userId, shortCode, 'clicks');
         const url = new URL(shortCodeRecord.value.destination);
         return redirect(url.href);
       }
       case "sus": {
-        await updateShortCodeRecord(shortCode, 'sus');
+        await updateShortCodeRecord(userId, shortCode, 'sus');
+        return redirect(`/${shortCode}`);
+      }
+      case "user-sus": {
+        const data = await udpateShortCodeUserRecord(shortCode, 'sus');
+        return redirect(`/${shortCode}`);
+      }
+      case "user-trust": {
+        const data = await udpateShortCodeUserRecord(shortCode, 'trust');
         return redirect(`/${shortCode}`);
       }
     }
@@ -42,21 +52,27 @@ export const handler: Handlers<Data, SessionState> = {
     
   GET: async (req, ctx) => {
     const shortCode = ctx.params.code;
-    const shortCodeRecord = await updateShortCodeRecord(shortCode, 'views');
+    const userId = ctx.state.session.user.id;
 
-    if(!shortCodeRecord.value) {
+    const shortCodeRecord = await updateShortCodeRecord(userId, shortCode, 'views');
+
+    if(!shortCodeRecord || !shortCodeRecord.value) {
       return ctx.renderNotFound();
     }
 
     let userRecord: {value: UserOrAnon} = { value: {
       username: '<ANON>',
+      id: '',
     }};
 
     if(shortCodeRecord.value.username !== '<ANON>') {
       userRecord = await kv.get([KEY_PREFIX.users, shortCodeRecord.value.username]);
     }
 
+    const actions = await getActions(userId)
+
     return ctx.render({
+      actions: actions.value!,
       shortCode: shortCode,
       record: shortCodeRecord.value as SusRecord,
       user: userRecord.value as UserOrAnon,
@@ -64,9 +80,12 @@ export const handler: Handlers<Data, SessionState> = {
   }
 }
 
-export default function Greet({data: {shortCode, record, user}, ...props}: PageProps<Data>) {
+export default function Greet({data: {shortCode, actions, record, user}, ...props}: PageProps<Data>) {
   const url = new URL(record.destination);
   const { pathname, origin, username, password, searchParams } = url;
+
+  const didReportSus = actions.shortCodes[shortCode]?.sus || false;
+
   return <div class="flex flex-col gap-16 p-4 mx-auto pt-16">
   <div class="text-center">
     <h1 class="text-6xl mb-0 mx-auto text-center site-title">
@@ -93,8 +112,10 @@ export default function Greet({data: {shortCode, record, user}, ...props}: PageP
     </Alert>}
     
     <div class="flex justify-center gap-8 my-16">
-      <form action="" method="post" class="">
-        <Button type="submit" name="action" value="sus" class="px-8 py-4 font-sus text-4xl">Report as SUS</Button>
+      <form method="post" class="">
+        <Button type="submit" name="action" value="sus" color={didReportSus?'gray':'red'} class="px-8 py-4 font-sus text-4xl">
+          {didReportSus ? 'Remove SUS' : 'Report as SUS'}
+        </Button>
       </form>
 
       <form method="post">
@@ -122,6 +143,10 @@ export default function Greet({data: {shortCode, record, user}, ...props}: PageP
             user.username
           }
         </div>
+
+        {user.username != '<ANON>' && <div class="mt-4">
+          <ShortCodeUser user={user as User} />
+        </div>}
 
       </div>
     </div>}

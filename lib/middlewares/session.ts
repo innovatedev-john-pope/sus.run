@@ -1,9 +1,6 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import {
-  getSessionId
-} from "deno_kv_oauth";
-import { SessionState, getSessionData } from "../auth.ts";
-import settings from "../../settings.ts";
+import { SessionState, createAnonSession, getSessionData, getSessionId } from "~/lib/auth.ts";
+import settings from "~/settings.ts";
 
 export async function SessionMiddleware(
   req: Request,
@@ -13,15 +10,19 @@ export async function SessionMiddleware(
     return ctx.next();
   }
 
-  ctx.state.sid = await getSessionId(req)
+  ctx.state.sid = getSessionId(req)
   
   if(ctx.state.sid) {
     ctx.state.session = await getSessionData(ctx.state.sid)
     
-    const user = ctx.state.session?.user?.username!;
-    ctx.state.username = user
+    const username = ctx.state.session?.user?.username!;
+    ctx.state.username = username;
+
+    ctx.state.isAuthed = username !== '<ANON>'
     
-    ctx.state.isAdmin = settings.admin.users.indexOf(user) !== -1
+    ctx.state.isAdmin = settings.admin.users.indexOf(username) !== -1
+  } else {
+    return await createAnonSession(req.url);
   }
 
   const resp = await ctx.next();

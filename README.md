@@ -21,15 +21,17 @@ Uses [Deno](https://deno.land) and [Fresh](https://fresh.deno.dev).
 - [x] Admin page to view/clear out db
 - [x] Add CI/CD (deno deploy)
 - [x] Add custom domain ([sus.run](https://sus.run))
+- [x] Allow users to report other users
+- [x] Show trust/sus score for user that submitted link
 
 TODO:
 
+- [-] Track stats better to avoid counting bots/same user multiple times
+  - [x] Use cookies to track unique users
+  - [ ] use other metrics to track unique users/avoid bots
 - [ ] Responsive design
 - [ ] Allow users to trust other users (skip landing page for their links)
-- [ ] Allow users to report other users
-- [ ] Show trust/sus score for user that submitted link
 - [ ] Allow users to create vanity links
-- [ ] Track stats better to avoid counting bots/same user multiple times
 - [ ] Track/show hostnames that are sus
 - [ ] Track stats over time
 - [ ] Show link trends (clicks/reports/view per day/week/month)

@@ -33,10 +33,10 @@ export default function App({ url, Component, state }: PageProps<unknown, Sessio
         </div>
 
         {state && <nav class="flex gap-4">
-          {state.session ? 
+          {state.isAuthed ? 
             <>
               {state.isAdmin && <a href="/admin/clean-db">DB</a>}
-              <a href="/profile">{state.session.user.username}</a>
+              <a href="/profile">{state.session?.user.username}</a>
               <a href="/signout">Sign Out</a>
             </>
           :

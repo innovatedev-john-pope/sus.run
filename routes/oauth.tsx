@@ -18,12 +18,16 @@ export const handler: Handlers = {
         return await signIn(request, oauth2Client);
       }
       case "/oauth/callback/github": {
-        const { response, accessToken, sessionId } = await handleCallback(request, oauth2Client);
-        const ghUser = await githubUser(accessToken);
+        try {
+          const { response, accessToken, sessionId } = await handleCallback(request, oauth2Client);
+          const ghUser = await githubUser(accessToken);
 
-        login(sessionId, ghUser);
+          login(sessionId, ghUser);
 
-        return response;
+          return response;
+        } catch {
+          return ctx.renderNotFound();
+        }
       }
       case "/signout": {
         return await signOut(request);

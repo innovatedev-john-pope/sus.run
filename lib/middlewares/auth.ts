@@ -3,7 +3,7 @@ import { redirect } from "deno_kv_oauth/_core.ts";
 import { RouteState } from "./route.ts";
 
 export async function AuthMiddleware(
-  req: Request,
+  _req: Request,
   ctx: MiddlewareHandlerContext<RouteState>,
 ) {
   if(ctx.destination !== 'route') {
@@ -12,7 +12,7 @@ export async function AuthMiddleware(
 
   const path = ctx.state.url.pathname;
 
-  const isLoggedIn = ctx.state.username !== undefined;
+  const isLoggedIn = ctx.state.isAuthed;
   let authType = ctx.state.route?.config?.auth || 'private';
   if(['/signin', '/oauth/callback/github'].includes(path)) {
     authType = 'guest';
